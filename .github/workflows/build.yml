@@ -38,7 +38,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           source: "target/HelloAWS-1.0-SNAPSHOT.jar"
-          target: "/home/ubuntu/HelloAWS-1.0-SNAPSHOT.jar"
+          target: "/home/ubuntu/"
 
       - name: Restart services on EC2
         uses: appleboy/ssh-action@v0.1.6
@@ -48,5 +48,6 @@ jobs:
             key: ${{ secrets.EC2_SSH_KEY }}
             port: 22
             script: |
+              mv /home/ubuntu/target/HelloAWS-1.0-SNAPSHOT.jar /home/ubuntu/HelloAWS-1.0-SNAPSHOT.jar
               sudo systemctl stop demo
               sudo systemctl start demo
