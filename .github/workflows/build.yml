@@ -29,3 +29,15 @@ jobs:
         with:
           name: app-jar
           path: target/*.jar
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+            host: ${{ secrets.EC2_HOST }}
+            username: ubuntu
+            key: ${{ secrets.EC2_SSH_KEY }}
+            port: 22
+            script: |
+              sudo systemctl stop demo
+              cp target/*.jar /home/ubuntu/HelloAWS-1.0-SNAPSHOT.jar
+              sudo systemctl start demo
