@@ -1,0 +1,39 @@
+# Maven
+/target/
+/pom.xml.tag
+/pom.xml.releaseBackup
+/pom.xml.versionsBackup
+/logs/
+*.log
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# Eclipse
+.project
+.classpath
+.settings/
+bin/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# AWS keys / pem files
+*.pem
+
+# Spring Boot
+# application properties/yaml for sensitive envs
+application-dev.yml
+application-dev.properties
+application-prod.yml
+application-prod.properties
+
+# Other sensitive files
+*.key
+*.crt
+*.env
