@@ -18,13 +18,13 @@ public class UserController {
     }
 
     @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userService.createUser(user);
+    public ApiResponse<User> createUser(@RequestBody User user) {
+        return ApiResponse.success(userService.createUser(user));
     }
 
     @PutMapping("/{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody User user) {
-        return userService.updateUser(id, user);
+    public ApiResponse<User> updateUser(@PathVariable Long id, @RequestBody User user) {
+        return ApiResponse.success(userService.updateUser(id, user));
     }
 
     @GetMapping("/{id}")
