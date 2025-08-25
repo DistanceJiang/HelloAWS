@@ -22,6 +22,11 @@ public class UserController {
         return userService.createUser(user);
     }
 
+    @PutMapping("/{id}")
+    public User updateUser(@PathVariable Long id, @RequestBody User user) {
+        return userService.updateUser(id, user);
+    }
+
     @GetMapping("/{id}")
     public ApiResponse<User> getUser(@PathVariable Long id) {
         return ApiResponse.success(userService.getUser(id).orElse( null));
