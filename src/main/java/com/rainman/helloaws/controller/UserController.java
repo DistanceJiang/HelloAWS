@@ -1,5 +1,6 @@
 package com.rainman.helloaws.controller;
 
+import com.rainman.helloaws.dto.ApiResponse;
 import com.rainman.helloaws.entity.User;
 import com.rainman.helloaws.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -22,20 +23,18 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUser(@PathVariable Long id) {
-        return userService.getUser(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ApiResponse<User> getUser(@PathVariable Long id) {
+        return ApiResponse.success(userService.getUser(id).orElse( null));
     }
 
     @GetMapping
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    public ApiResponse<List<User>> getAllUsers() {
+        return ApiResponse.success(userService.getAllUsers());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+    public ApiResponse<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
-        return ResponseEntity.noContent().build();
+        return ApiResponse.success(null);
     }
 }
