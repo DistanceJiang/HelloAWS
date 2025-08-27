@@ -9,7 +9,8 @@ import com.rainman.helloaws.entity.mapper.UserMapper;
 import com.rainman.helloaws.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,8 +43,9 @@ public class UserController {
     }
 
     @GetMapping
-    public ApiResponse<List<UserResponseDTO>> getAllUsers() {
-        return ApiResponse.success(userMapper.toDTOList(userService.getAllUsers()));
+    public ApiResponse<Page<UserResponseDTO>> getAllUsers(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        Page<User> userPage = userService.getAllUsers(PageRequest.of(page, size));
+        return ApiResponse.success(userPage.map(userMapper::toDTO));
     }
 
     @DeleteMapping("/{id}")
