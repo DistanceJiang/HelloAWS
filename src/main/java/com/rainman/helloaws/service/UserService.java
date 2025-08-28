@@ -32,6 +32,7 @@ public class UserService {
         return getUser(id).map(u -> {
             u.setName(user.getName());
             u.setEmail(user.getEmail());
+            u.setPassword(user.getPassword());
             return userRepository.save(u);
         }).orElse(null);
     }

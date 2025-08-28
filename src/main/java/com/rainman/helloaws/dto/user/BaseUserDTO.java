@@ -17,6 +17,4 @@ public class BaseUserDTO {
     @Email
     private String email;
 
-    @NotBlank(message = "Password cannot be empty")
-    private String password;
 }

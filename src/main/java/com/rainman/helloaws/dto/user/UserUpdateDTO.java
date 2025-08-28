@@ -1,5 +1,6 @@
 package com.rainman.helloaws.dto.user;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserUpdateDTO extends BaseUserDTO {
-    @NotNull
-    private Long id;
+    // no id
+    @NotBlank(message = "Password cannot be empty")
+    private String password;
 }
