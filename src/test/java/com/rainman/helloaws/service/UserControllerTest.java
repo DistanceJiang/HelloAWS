@@ -21,6 +21,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -105,6 +106,27 @@ public class UserControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(400))
                 .andExpect(jsonPath("$.message").value("Email cannot be empty"));
+    }
+
+    @Test
+    public void testCreateUser_DuplicatedEmail() throws Exception {
+        // Mock user data
+        UserCreateDTO userCreateDTO = new UserCreateDTO();
+        userCreateDTO.setName("John Doe");
+        userCreateDTO.setPassword("123");
+        userCreateDTO.setEmail("john@example.com");
+
+        User user = userMapper.toEntity(userCreateDTO);
+        user.setId(1L);
+
+        when(userService.createUser(any(User.class))).thenThrow(new IllegalArgumentException("Email already exists"));
+
+        mockMvc.perform(post("/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(userCreateDTO)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST.value()))
+                .andExpect(jsonPath("$.message").value("Email already exists"));
     }
 
     @Test

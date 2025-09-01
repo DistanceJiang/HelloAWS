@@ -18,6 +18,11 @@ public class GlobalExceptionHandler {
         return ApiResponse.error(HttpStatus.BAD_REQUEST.value(), e.getBindingResult().getFieldError().getDefaultMessage());
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ApiResponse<String> handleIllegalArgumentException(IllegalArgumentException e) {
+        return ApiResponse.error(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+    }
+
     @ExceptionHandler(BusinessException.class)
     public ApiResponse<String> handleBusinessException(BusinessException e) {
         return ApiResponse.error(e.getCode(), e.getMessage());

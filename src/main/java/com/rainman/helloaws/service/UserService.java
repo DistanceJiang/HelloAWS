@@ -1,6 +1,7 @@
 package com.rainman.helloaws.service;
 
 import com.rainman.helloaws.entity.User;
+import com.rainman.helloaws.exception.BusinessException;
 import com.rainman.helloaws.repo.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,10 @@ public class UserService {
     }
 
     public User createUser(User user) {
+        // check duplicate email
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("Email already exists");
+        }
         log.debug("Creating user: {}", user);
         User savedUser = userRepository.save(user);
         log.info("User created with id: {}", savedUser.getId());

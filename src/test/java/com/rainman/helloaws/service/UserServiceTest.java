@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.rainman.helloaws.entity.User;
 import com.rainman.helloaws.repo.UserRepository;
+import org.instancio.Instancio;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -41,5 +42,22 @@ public class UserServiceTest {
 
         User result = userService.getUser(2L).orElse(null);
         assertNull(result);
+    }
+
+    @Test
+    public void testCreateUser_DuplicateEmail() {
+        // given
+        User mockUser = new User();
+        mockUser.setId(1L);
+        mockUser.setName("Tom");
+        mockUser.setEmail("tom@example.com");
+        mockUser.setPassword("password");
+
+        // when
+        when(userRepository.findByEmail(mockUser.getEmail())).thenReturn(Optional.of(mockUser));
+
+        // then
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> userService.createUser(mockUser));
+        assertEquals("Email already exists", exception.getMessage());
     }
 }
