@@ -57,4 +57,9 @@ public class UserService {
         log.debug("Deleting user with id: {}", id);
         userRepository.deleteById(id);
     }
+
+    public Optional<User> findByEmail(String email) {
+        log.debug("Finding user by email: {}", email);
+        return userRepository.findByEmail(email);
+    }
 }

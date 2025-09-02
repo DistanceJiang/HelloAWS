@@ -2,7 +2,9 @@ package com.rainman.helloaws.utils;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
+@Component
 public class PasswordUtil {
     private static final String SALT = "helloaws";
 
